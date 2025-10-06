@@ -1,11 +1,21 @@
-@page
+@page "{handler?}"
+@model IndexModel
 @using DevExtremeAspNetCoreApp1.Models
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 <h2>Home</h2>
 
 @(Html.DevExtreme().DataGrid<SampleOrder>()
     .ShowBorders(true)
-    .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("OrderID"))
+    .DataSource(
+        d => d.RemoteController()
+            .LoadUrl(Url.Page(null, "Get"))
+            .Key("OrderID")
+            .OnBeforeSend(
+                @<text>
+                     function (op, ajax) { ajax.headers = { RequestVerificationToken: '@Xsrf.GetAndStoreTokens(Model.HttpContext).RequestToken' }; }
+                 </text>)
+    )
     .Columns(columns => {
         columns.AddFor(m => m.OrderID);
         columns.AddFor(m => m.OrderDate);
