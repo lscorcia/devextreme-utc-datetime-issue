@@ -10,6 +10,9 @@
     .DataSource(
         d => d.RemoteController()
             .LoadUrl(Url.Page(null, "Get"))
+            .InsertUrl(Url.Page(null, "Add"))
+            .UpdateUrl(Url.Page(null, "Edit"))
+            .DeleteUrl(Url.Page(null, "Delete"))
             .Key("OrderID")
             .OnBeforeSend(
                 @<text>
@@ -17,6 +20,14 @@
                  </text>)
     )
     .Columns(columns => {
+        columns.Add()
+            .Type(GridCommandColumnType.Buttons)
+            .Buttons(b =>
+            {
+                b.Add().Name(GridColumnButtonName.Edit);
+                b.Add().Name(GridColumnButtonName.Delete);
+            });
+
         columns.AddFor(m => m.OrderID);
         columns.AddFor(m => m.OrderDate);
         columns.AddFor(m => m.CustomerName);
@@ -39,6 +50,9 @@
     )
     .Toolbar(toolbar => 
         toolbar.Items(items => {
+            items.Add().Name("addRowButton")
+                .ShowText(ToolbarItemShowTextMode.Always).Location(ToolbarItemLocation.Before)
+                .Widget(w => w.Button().Text("Add"));
 
             items.Add().Name("exportCsv")
                 .ShowText(ToolbarItemShowTextMode.Always).Location(ToolbarItemLocation.Before)
@@ -47,4 +61,32 @@
                         window.location.href = '" + @Url.Page(null, "ExportCsv") + @"';
                     }"));
         })
+    )
+    .Editing(e => e.Mode(GridEditMode.Popup)
+        .AllowAdding(true)
+        .AllowUpdating(true)
+        .AllowDeleting(true)
+        .UseIcons(true)
+        .Popup(p => p
+            .Title("Details")
+            .ShowTitle(true)
+            .Width(600)
+            .Height("auto").MaxHeight("90vh")
+            .OnContentReady(@"
+                    function (e) {
+                        e.component.option('toolbarItems[0].options.icon', 'check');
+                        e.component.option('toolbarItems[1].options.icon', 'close');
+                    }"
+            )
+        )
+        .Form(f => f
+            .ColCount(1)
+            .Items(items =>
+            {
+                items.AddSimpleFor(m => m.OrderDate)
+                    .Editor(t => t.DateBox().Max(DateTime.Today));
+                items.AddSimpleFor(m => m.CustomerName);
+                items.AddSimpleFor(m => m.ShipCountry);
+                items.AddSimpleFor(m => m.ShipCity);
+            })))
 )
