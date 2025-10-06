@@ -1,6 +1,10 @@
+@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+}
 <!DOCTYPE html>
 
-<html>
+<html lang="@(requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName)">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -84,6 +88,13 @@
     <main class="container" style="margin-top: 1.5rem;">
         @RenderBody()
     </main>
+                        
+    @if (requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName != "en") {
+        <script src="~/vendor/devextreme/localization/dx.messages.@(requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName).js"></script>
+    }
+    <script>
+        DevExpress.localization.locale("@(requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName)");
+    </script>
 </body>
 
 </html>
