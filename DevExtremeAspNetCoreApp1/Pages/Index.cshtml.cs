@@ -18,5 +18,11 @@ namespace DevExtremeAspNetCoreApp1.Pages {
         {
             return new JsonResult(DataSourceLoader.Load(SampleData.Orders, loadOptions));
         }
+
+        public IActionResult OnGetExportCsv()
+        {
+            byte[] csvFile = Encoding.UTF8.GetBytes(SampleData.Orders.ToCsv());
+            return new FileContentResult(csvFile, "text/csv");
+        }
     }
 }

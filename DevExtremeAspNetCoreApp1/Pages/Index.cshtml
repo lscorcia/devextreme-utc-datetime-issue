@@ -37,4 +37,14 @@
             groupItems.Add().SummaryType(SummaryType.Count);
         })
     )
+    .Toolbar(toolbar => 
+        toolbar.Items(items => {
+
+            items.Add().Name("exportCsv")
+                .ShowText(ToolbarItemShowTextMode.Always).Location(ToolbarItemLocation.Before)
+                .Widget(w => w.Button().Text("Export CSV")
+                    .OnClick(@"function() {
+                        window.location.href = '" + @Url.Page(null, "ExportCsv") + @"';
+                    }"));
+        })
 )
