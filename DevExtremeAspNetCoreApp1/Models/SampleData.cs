@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DevExtremeAspNetCoreApp1.Models {
     static class SampleData {
         public static List<SampleOrder> Orders = new List<SampleOrder>() {
-            new SampleOrder {
+          /*  new SampleOrder {
                 OrderID = 10248,
                 OrderDate = new DateTime(1996, 7, 4),
                 ShipCountry = "France",
@@ -356,7 +356,7 @@ namespace DevExtremeAspNetCoreApp1.Models {
                 ShipCountry = "France",
                 ShipCity = "Strasbourg",
                 CustomerName = "Frédérique Citeaux"
-            }
+            }*/
         };
     }
 }
