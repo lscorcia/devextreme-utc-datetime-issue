@@ -29,7 +29,8 @@
             });
 
         columns.AddFor(m => m.OrderID);
-        columns.AddFor(m => m.OrderDate);
+        columns.AddFor(m => m.OrderDate)
+            .DataType(GridColumnDataType.Date);
         columns.AddFor(m => m.CustomerName);
         columns.AddFor(m => m.ShipCountry);
         columns.AddFor(m => m.ShipCity);
@@ -84,7 +85,8 @@
             .Items(items =>
             {
                 items.AddSimpleFor(m => m.OrderDate)
-                    .Editor(t => t.DateBox().Max(DateTime.Today));
+                    .Editor(t => t.DateBox()
+                        .Max(DateTime.Today));
                 items.AddSimpleFor(m => m.CustomerName);
                 items.AddSimpleFor(m => m.ShipCountry);
                 items.AddSimpleFor(m => m.ShipCity);
