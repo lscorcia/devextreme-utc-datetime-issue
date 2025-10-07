@@ -19,6 +19,7 @@
                      function (op, ajax) { ajax.headers = { RequestVerificationToken: '@Xsrf.GetAndStoreTokens(Model.HttpContext).RequestToken' }; }
                  </text>)
     )
+    .DateSerializationFormat("yyyy-MM-dd")
     .Columns(columns => {
         columns.Add()
             .Type(GridCommandColumnType.Buttons)
